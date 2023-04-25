@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/415.91cf521d.chunk.js","mappings":"0JAIA,UAJA,WACE,OAAO,qCACR,C","sources":["pages/Home.jsx"],"sourcesContent":["function Home() {\n  return <p>Tweets App</p>;\n}\n\nexport default Home;\n"],"names":[],"sourceRoot":""}
