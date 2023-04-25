@@ -15,10 +15,10 @@ const UserCard = ({ props, id }) => {
 
     if (complitedStatus) {
       setFollowersCount(followersCount - 1);
-      await FollowingUser(idCard, followersCount, !complitedStatus);
+      await FollowingUser(idCard, followersCount - 1, !complitedStatus);
     } else {
       setFollowersCount(followersCount + 1);
-      await FollowingUser(idCard, followersCount, !complitedStatus);
+      await FollowingUser(idCard, followersCount + 1, !complitedStatus);
     }
   };
 
