@@ -34,9 +34,9 @@ function Tweets() {
     fetch();
   }, [page]);
 
-  // useEffect(() => {
-  //   setFiltered([...users]);
-  // }, [users]);
+  useEffect(() => {
+    setFiltered([...users]);
+  }, [users]);
 
   const loadMoreBtnClick = async () => {
     setPage(page + 1);
