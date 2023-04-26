@@ -1,18 +1,21 @@
 import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 
 import { GetUsers } from 'services/operations';
-import UsersCard from 'components/UsersCard/UsersCard';
+import UsersCard from 'components/UsersCard/UserCard';
 import LoadMore from 'components/LoadMore/LoadMore';
 import { Loader } from 'components/Loader/Loader';
-import FilterStyled from 'components/Filter/Filter';
+// import FilterStyled from 'components/Filter/Filter';
+
+import { Button } from 'components/LoadMore/LoadMore.styled';
 
 function Tweets() {
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setisLoading] = useState(false);
   const [showBtn, setShowBtn] = useState(false);
-  const [filtered, setFiltered] = useState(users);
+  // const [filtered, setFiltered] = useState(users);
 
   const per_page = 3;
   const totalUser = 15;
@@ -23,7 +26,13 @@ function Tweets() {
     const fetch = async () => {
       try {
         const { data } = await GetUsers(page, per_page);
-        setUsers(data);
+
+        if (users === []) {
+          setUsers(data);
+        } else {
+          setUsers([...users, ...data]);
+        }
+
         setShowBtn(page < Math.ceil(totalUser / per_page));
         setisLoading(false);
       } catch (error) {
@@ -34,24 +43,21 @@ function Tweets() {
     fetch();
   }, [page]);
 
-  useEffect(() => {
-    setFiltered([...users]);
-  }, [users]);
-
   const loadMoreBtnClick = async () => {
     setPage(page + 1);
-    const { data } = await GetUsers(page, per_page);
-    setUsers([...users, ...data]);
   };
 
-  const statusFilter = status => {
-    if (status === 'All') {
-      setFiltered(users);
-    } else {
-      const newUserList = users.filter(user => user.complited === status);
-      setFiltered(newUserList);
-    }
-  };
+  // const statusFilter = status => {
+  //   if (status === 'All') {
+  //     setFiltered(users);
+  //   } else {
+  //     const newUserList = users.filter(user => user.complited === status);
+  //     setFiltered(newUserList);
+  //   }
+  // };
+
+  const location = useLocation();
+  const backLinkHref = location.state?.from ?? '/';
 
   return (
     <>
@@ -61,8 +67,13 @@ function Tweets() {
           duration: 3500,
         }}
       />
-      <FilterStyled onClick={statusFilter} />
-      <UsersCard users={filtered} />
+
+      <Link to={backLinkHref}>
+        <Button type="button">Go back</Button>
+      </Link>
+
+      {/* <FilterStyled onClick={statusFilter} /> */}
+      <UsersCard users={users} />
 
       {isLoading ? (
         <Loader />
