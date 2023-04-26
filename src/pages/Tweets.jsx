@@ -28,10 +28,8 @@ function Tweets() {
         const { data } = await GetUsers(page, per_page);
 
         if (users === []) {
-          console.log(1);
           setUsers(data);
         } else {
-          console.log(2);
           setUsers([...users, ...data]);
         }
 
