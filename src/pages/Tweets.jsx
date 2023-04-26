@@ -6,7 +6,6 @@ import { GetUsers } from 'services/operations';
 import UsersCard from 'components/UsersCard/UserCard';
 import LoadMore from 'components/LoadMore/LoadMore';
 import { Loader } from 'components/Loader/Loader';
-// import FilterStyled from 'components/Filter/Filter';
 
 import { BackButton } from 'components/LoadMore/LoadMore.styled';
 
@@ -18,7 +17,6 @@ function Tweets() {
   const [page, setPage] = useState(1);
   const [isLoading, setisLoading] = useState(false);
   const [showBtn, setShowBtn] = useState(false);
-  // const [filtered, setFiltered] = useState(users);
 
   useEffect(() => {
     setisLoading(true);
@@ -49,15 +47,6 @@ function Tweets() {
     setPage(page + 1);
   };
 
-  // const statusFilter = status => {
-  //   if (status === 'All') {
-  //     setFiltered(users);
-  //   } else {
-  //     const newUserList = users.filter(user => user.complited === status);
-  //     setFiltered(newUserList);
-  //   }
-  // };
-
   const location = useLocation();
   const backLinkHref = location.state?.from ?? '/';
 
@@ -74,7 +63,6 @@ function Tweets() {
         <BackButton type="button">Go back</BackButton>
       </Link>
 
-      {/* <FilterStyled onClick={statusFilter} /> */}
       <UsersCard users={users} />
 
       {isLoading ? (
