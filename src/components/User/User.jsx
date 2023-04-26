@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import { UserWrap, Img, Line, Li, Ul, Button, ImgWrap } from './User.styled';
 import { FollowingUser } from 'services/operations';
 import LogoSvg from 'images/LogoSvg/LogoSvg';
@@ -22,6 +23,12 @@ const UserCard = ({ props, id }) => {
     }
   };
 
+  function numberWithSpaces(x) {
+    var parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+
   return (
     <UserWrap>
       <LogoSvg />
@@ -33,8 +40,8 @@ const UserCard = ({ props, id }) => {
       </ImgWrap>
 
       <Ul>
-        <Li>{tweets} TWEETS</Li>
-        <Li>{followersCount} FOLLOWERS</Li>
+        <Li>{numberWithSpaces(tweets)} TWEETS</Li>
+        <Li>{numberWithSpaces(followersCount)} FOLLOWERS</Li>
       </Ul>
 
       <Button type="button" props={complitedStatus} onClick={buttonToggle}>
