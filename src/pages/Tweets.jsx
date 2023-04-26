@@ -10,15 +10,15 @@ import { Loader } from 'components/Loader/Loader';
 
 import { BackButton } from 'components/LoadMore/LoadMore.styled';
 
+const per_page = 3;
+const totalUser = 15;
+
 function Tweets() {
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setisLoading] = useState(false);
   const [showBtn, setShowBtn] = useState(false);
   // const [filtered, setFiltered] = useState(users);
-
-  const per_page = 3;
-  const totalUser = 15;
 
   useEffect(() => {
     setisLoading(true);
@@ -28,8 +28,10 @@ function Tweets() {
         const { data } = await GetUsers(page, per_page);
 
         if (users === []) {
+          console.log(1);
           setUsers(data);
         } else {
+          console.log(2);
           setUsers([...users, ...data]);
         }
 
@@ -45,7 +47,7 @@ function Tweets() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
-  const loadMoreBtnClick = async () => {
+  const loadMoreBtnClick = () => {
     setPage(page + 1);
   };
 
