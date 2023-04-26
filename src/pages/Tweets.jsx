@@ -8,7 +8,7 @@ import LoadMore from 'components/LoadMore/LoadMore';
 import { Loader } from 'components/Loader/Loader';
 // import FilterStyled from 'components/Filter/Filter';
 
-import { Button } from 'components/LoadMore/LoadMore.styled';
+import { BackButton } from 'components/LoadMore/LoadMore.styled';
 
 function Tweets() {
   const [users, setUsers] = useState([]);
@@ -71,7 +71,7 @@ function Tweets() {
       />
 
       <Link to={backLinkHref}>
-        <Button type="button">Go back</Button>
+        <BackButton type="button">Go back</BackButton>
       </Link>
 
       {/* <FilterStyled onClick={statusFilter} /> */}
