@@ -9,46 +9,43 @@ import { Loader } from 'components/Loader/Loader';
 
 import { BackButton } from 'components/LoadMore/LoadMore.styled';
 
-const per_page = 3;
-const totalUser = 15;
+const USERS_PER_PAGE = 3;
+const USERS_LIMIT = 15;
 
 function Tweets() {
+  const location = useLocation();
+  const backLinkHref = location.state?.from ?? '/';
+
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setisLoading] = useState(false);
-  const [showBtn, setShowBtn] = useState(false);
+  // const [showBtn, setShowBtn] = useState(false);
+
+  const queryLink = `?page=${page}&limit=${USERS_PER_PAGE}`;
 
   useEffect(() => {
+    let ignore = false;
+
     setisLoading(true);
 
-    const fetch = async () => {
-      try {
-        const { data } = await GetUsers(page, per_page);
-
-        if (users === []) {
-          setUsers(data);
-        } else {
-          setUsers([...users, ...data]);
+    GetUsers(queryLink)
+      .then(({ data }) => {
+        if (!ignore) {
+          setUsers(preUsers => [...preUsers, ...data]);
         }
+      })
+      .catch(error => toast.error(`Opps, error: "${error}", try again`))
+      .finally(() => setisLoading(false));
 
-        setShowBtn(page < Math.ceil(totalUser / per_page));
-        setisLoading(false);
-      } catch (error) {
-        setisLoading(false);
-        toast.error(`Opps, error: "${error}", try again`);
-      }
-    };
-    fetch();
+    return () => (ignore = true);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [queryLink]);
+
+  const isUserLimit = page >= Math.ceil(USERS_LIMIT / USERS_PER_PAGE);
 
   const loadMoreBtnClick = () => {
     setPage(page + 1);
   };
-
-  const location = useLocation();
-  const backLinkHref = location.state?.from ?? '/';
 
   return (
     <>
@@ -68,7 +65,7 @@ function Tweets() {
       {isLoading ? (
         <Loader />
       ) : (
-        showBtn && <LoadMore onClick={loadMoreBtnClick} />
+        !isUserLimit && <LoadMore onClick={loadMoreBtnClick} />
       )}
     </>
   );
