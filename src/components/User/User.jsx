@@ -36,7 +36,7 @@ const UserCard = ({ props, id }) => {
       <Line />
 
       <ImgWrap>
-        <Img src={avatar} alt={user}></Img>
+        <Img src={avatar} alt={user} width="64px" height="64px"></Img>
       </ImgWrap>
 
       <Ul>
